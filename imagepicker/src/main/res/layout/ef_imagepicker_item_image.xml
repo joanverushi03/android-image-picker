@@ -1,23 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.esafirm.imagepicker.view.SquareFrameLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/ef_folder_placeholder"
     android:layout_height="wrap_content"
+    android:layout_margin="8dp"
     android:foregroundGravity="center">
 
     <ImageView
         android:id="@+id/image_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:contentDescription="@string/ef_content_desc_image"
-        android:scaleType="centerCrop"/>
+        android:adjustViewBounds="true" />
 
     <View
         android:id="@+id/view_alpha"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"/>
+
+    <ImageView
+        android:id="@+id/iv_camera_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:elevation="4dp"
+        android:contentDescription="iv_video_icon"
+        android:src="@drawable/ef_ic_camera" />
 
     <TextView
         android:id="@+id/ef_item_file_type_indicator"
@@ -35,4 +46,4 @@
         android:visibility="gone"
         tools:visibility="visible"/>
 
-</com.esafirm.imagepicker.view.SquareFrameLayout>
+</FrameLayout>

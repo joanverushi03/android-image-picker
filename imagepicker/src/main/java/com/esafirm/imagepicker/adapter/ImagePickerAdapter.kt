@@ -50,7 +50,9 @@ class ImagePickerAdapter(
             R.layout.ef_imagepicker_item_image,
             parent,
             false
-        )
+        ).apply {
+            clipToOutline = true
+        }
         return ImageViewHolder(layout)
     }
 
@@ -62,6 +64,7 @@ class ImagePickerAdapter(
 
         var showFileTypeIndicator = false
         var fileTypeLabel: String? = ""
+        var isVideo: Boolean = false
 
         if (ImagePickerUtils.isGifFormat(image)) {
             fileTypeLabel = context.resources.getString(R.string.ef_gif)
@@ -69,6 +72,7 @@ class ImagePickerAdapter(
         }
 
         if (ImagePickerUtils.isVideoFormat(image)) {
+            isVideo = true
             if (!videoDurationHolder.containsKey(image.id)) {
                 val uri =
                     Uri.withAppendedPath(MediaStore.Files.getContentUri("external"), "" + image.id)
@@ -84,6 +88,7 @@ class ImagePickerAdapter(
         viewHolder.apply {
             fileTypeIndicator.text = fileTypeLabel
             fileTypeIndicator.visibility = if (showFileTypeIndicator) View.VISIBLE else View.GONE
+            icVideo.visibility = if (isVideo) View.VISIBLE else View.GONE
             alphaView.alpha = if (isSelected) 0.5f else 0f
             itemView.setOnClickListener {
                 val shouldSelect = itemClickListener(isSelected)
@@ -147,6 +152,7 @@ class ImagePickerAdapter(
         val imageView: ImageView = itemView.image_view
         val alphaView: View = itemView.view_alpha
         val fileTypeIndicator: TextView = itemView.ef_item_file_type_indicator
+        val icVideo: ImageView = itemView.iv_camera_icon
         val container: FrameLayout? = itemView as? FrameLayout
     }
 }
