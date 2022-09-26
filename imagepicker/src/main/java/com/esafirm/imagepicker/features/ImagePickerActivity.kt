@@ -5,8 +5,12 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -28,6 +32,7 @@ class ImagePickerActivity : AppCompatActivity(), ImagePickerInteractionListener 
     private val cameraModule = ImagePickerComponentsHolder.cameraModule
 
     private var actionBar: ActionBar? = null
+    private var title: TextView? = null
     private lateinit var imagePickerFragment: ImagePickerFragment
 
     private val config: ImagePickerConfig? by lazy {
@@ -60,10 +65,12 @@ class ImagePickerActivity : AppCompatActivity(), ImagePickerInteractionListener 
             return
         }
 
+
         val currentConfig = config!!
         setTheme(currentConfig.theme)
         setContentView(R.layout.ef_activity_image_picker)
         setupView(currentConfig)
+        setupToolbar()
 
         if (savedInstanceState != null) {
             // The fragment has been restored.
@@ -91,6 +98,11 @@ class ImagePickerActivity : AppCompatActivity(), ImagePickerInteractionListener 
             menu.findItem(R.id.menu_done).apply {
                 title = ConfigUtils.getDoneButtonText(this@ImagePickerActivity, config!!)
                 isVisible = imagePickerFragment.isShowDoneButton
+            }
+
+            findViewById<TextView>(R.id.tv_done).apply {
+                text = ConfigUtils.getDoneButtonText(this@ImagePickerActivity, config!!)
+                visibility = if (imagePickerFragment.isShowDoneButton) View.VISIBLE else View.GONE
             }
         }
         return super.onPrepareOptionsMenu(menu)
@@ -127,19 +139,28 @@ class ImagePickerActivity : AppCompatActivity(), ImagePickerInteractionListener 
     }
 
     private fun setupView(config: ImagePickerConfig) {
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        actionBar = supportActionBar
-        actionBar?.run {
-            val arrowDrawable = ViewUtils.getArrowIcon(this@ImagePickerActivity)
-            val arrowColor = config.arrowColor
-            if (arrowColor != ImagePickerConfig.NO_COLOR && arrowDrawable != null) {
-                arrowDrawable.setColorFilter(arrowColor, PorterDuff.Mode.SRC_ATOP)
-            }
-            setDisplayHomeAsUpEnabled(true)
-            setHomeAsUpIndicator(arrowDrawable)
-            setDisplayShowTitleEnabled(true)
-        }
+//        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+//        setSupportActionBar(toolbar)
+//        actionBar = supportActionBar
+//        actionBar?.run {
+//            val arrowDrawable = ViewUtils.getArrowIcon(this@ImagePickerActivity)
+//            val arrowColor = config.arrowColor
+//            if (arrowColor != ImagePickerConfig.NO_COLOR && arrowDrawable != null) {
+//                arrowDrawable.setColorFilter(arrowColor, PorterDuff.Mode.SRC_ATOP)
+//            }
+//            setDisplayHomeAsUpEnabled(true)
+//            setHomeAsUpIndicator(arrowDrawable)
+//            setDisplayShowTitleEnabled(true)
+//        }
+    }
+
+    private fun setupToolbar() {
+
+        val backButton = findViewById<ImageView>(R.id.iv_back)
+        val doneButton = findViewById<TextView>(R.id.tv_done)
+
+        backButton.setOnClickListener { onBackPressed() }
+        doneButton.setOnClickListener { imagePickerFragment.onDone() }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -164,6 +185,7 @@ class ImagePickerActivity : AppCompatActivity(), ImagePickerInteractionListener 
 
     override fun setTitle(title: String?) {
         actionBar?.title = title
+        findViewById<TextView>(R.id.tv_title)?.text = title
         invalidateOptionsMenu()
     }
 
@@ -173,6 +195,7 @@ class ImagePickerActivity : AppCompatActivity(), ImagePickerInteractionListener 
 
     override fun selectionChanged(imageList: List<Image>?) {
         // Do nothing when the selection changes.
+        findViewById<TextView>(R.id.tv_done).visibility = if (imageList.isNullOrEmpty()) View.INVISIBLE else View.VISIBLE
     }
 
     override fun finishPickImages(result: Intent?) {

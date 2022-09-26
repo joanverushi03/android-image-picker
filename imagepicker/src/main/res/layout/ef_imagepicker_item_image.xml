@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:background="@drawable/ef_folder_placeholder"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_margin="6dp"
     android:foregroundGravity="center">
 
     <ImageView

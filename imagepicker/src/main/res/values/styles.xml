@@ -4,7 +4,7 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:statusBarColor">@color/ef_neutral_10</item>
+        <item name="android:statusBarColor">@color/ef_black</item>
     </style>
 
     <style name="ef_AppTheme" parent="ef_BaseTheme">
