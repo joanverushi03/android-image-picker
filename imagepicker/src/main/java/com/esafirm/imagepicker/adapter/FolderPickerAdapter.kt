@@ -27,7 +27,9 @@ class FolderPickerAdapter(
             R.layout.ef_imagepicker_item_folder,
             parent,
             false
-        )
+        ).apply {
+            clipToOutline = true
+        }
         return FolderViewHolder(layout)
     }
 

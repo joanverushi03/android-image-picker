@@ -4,17 +4,18 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@color/ef_neutral_10</item>
     </style>
 
     <style name="ef_AppTheme" parent="ef_BaseTheme">
-        <item name="colorPrimary">@color/ef_colorPrimary</item>
-        <item name="colorPrimaryDark">@color/ef_colorPrimaryDark</item>
-        <item name="colorAccent">@color/ef_colorAccent</item>
+        <item name="colorPrimary">@color/ef_neutral_10</item>
+        <item name="colorPrimaryDark">@color/ef_neutral_50</item>
+        <item name="colorAccent">@color/ef_neutral_50</item>
     </style>
 
     <style name="ef_CustomToolbarTheme" parent="Base.ThemeOverlay.AppCompat.ActionBar">
-        <item name="android:textColorPrimary">@color/ef_colorTextPrimary</item>
-        <item name="actionMenuTextColor">@color/ef_colorTextPrimary</item>
+        <item name="android:textColorPrimary">@color/ef_neutral_50</item>
+        <item name="actionMenuTextColor">@color/ef_neutral_50</item>
     </style>
 
 </resources>

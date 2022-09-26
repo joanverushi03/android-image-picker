@@ -6,6 +6,7 @@ import android.os.Parcelable
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.esafirm.imagepicker.R
 import com.esafirm.imagepicker.adapter.FolderPickerAdapter
 import com.esafirm.imagepicker.adapter.ImagePickerAdapter
@@ -31,6 +32,9 @@ class RecyclerViewManager(
     private val context: Context get() = recyclerView.context
 
     private var layoutManager: GridLayoutManager? = null
+    private var staggeredLayoutManager: StaggeredGridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL).apply {
+        gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+    }
     private var itemOffsetDecoration: GridSpacingItemDecoration? = null
 
     private lateinit var imageAdapter: ImagePickerAdapter
@@ -56,14 +60,15 @@ class RecyclerViewManager(
      * Set item size, column size base on the screen orientation
      */
     fun changeOrientation(orientation: Int) {
-        imageColumns = if (orientation == Configuration.ORIENTATION_PORTRAIT) 3 else 5
+        imageColumns = if (orientation == Configuration.ORIENTATION_PORTRAIT) 2 else 4
         folderColumns = if (orientation == Configuration.ORIENTATION_PORTRAIT) 2 else 4
         val shouldShowFolder = config.isFolderMode && isDisplayingFolderView
         val columns = if (shouldShowFolder) folderColumns else imageColumns
         layoutManager = GridLayoutManager(context, columns)
-        recyclerView.layoutManager = layoutManager
+
+        recyclerView.layoutManager = if(isDisplayingFolderView) layoutManager else staggeredLayoutManager
         recyclerView.setHasFixedSize(true)
-        setItemDecoration(columns)
+        if(isDisplayingFolderView) setItemDecoration(columns)
     }
 
     fun setupAdapters(
@@ -147,7 +152,8 @@ class RecyclerViewManager(
 
     fun setImageAdapter(images: List<Image> = emptyList()) {
         imageAdapter.setData(images)
-        setItemDecoration(imageColumns)
+        // setItemDecoration(imageColumns)
+        recyclerView.layoutManager = staggeredLayoutManager
         recyclerView.adapter = imageAdapter
     }
 
