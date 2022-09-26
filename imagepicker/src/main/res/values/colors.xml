@@ -9,6 +9,7 @@
     <color name="ef_grey">#9E9E9E</color>
     <color name="ef_black_alpha_50">#80000000</color>
     <color name="ef_black_alpha_aa">#AA000000</color>
+    <color name="ef_black">#000000</color>
     <color name="ef_teal">#009688</color>
     <color name="ef_neutral_10">#F2F2F2</color>
     <color name="ef_neutral_50">#7E7E7E</color>
